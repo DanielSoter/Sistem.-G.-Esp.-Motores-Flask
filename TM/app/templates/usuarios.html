@@ -1,0 +1,7 @@
+{% extends 'base_geral.html' %} {% block content %} {% for usuario in usuarios %}
+<ul class="list-group list-group-flush">
+  <li class="list-group-item">
+    <a href="{{ url_for('usuarios.unique', id=usuario.id) }}">{{ usuario.nome }}</a>
+  </li>
+</ul>
+{% endfor %} {% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base_geral.html' %} {% block content %}
+
+<div class="mt-5">
+  <a href="{{ url_for('usuarios.home') }}" class="btn btn-info">
+    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+    Voltar
+  </a>
+   
+
+
+  <table class="table table-striped mt-3">
+    <tbody>
+      <tr>
+        <td>
+          {{ usuarios.id }}
+        </td>
+        <td>
+          {{ usuarios.nome }}
+        </td>
+        <td>
+          {{ usuarios.email }}
+        </td>
+        <td>
+          {{ usuarios.cargo }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

@@ -38,7 +38,7 @@ class Clientes(db.Model, UserMixin):
 class Motores(db.Model, UserMixin):
     __tablename__ = "motores"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    usuarios_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
+    clientes_id = db.Column(db.Integer, db.ForeignKey('clientes.id'))
     equipamento = db.Column(db.String(84), nullable=False, index = True)
     cliente = db.Column(db.String(84), nullable=False)
     marca = db.Column(db.String(84), nullable=False)
@@ -58,8 +58,11 @@ class Atividade(db.Model, UserMixin):
     __tablename__ = "atividades"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     ordem_servico = db.Column(db.String(84), nullable=False, unique=True, index=True)
-    data = db.Column(db.String(84), nullable=False, unique=True, index=True)
-    status = db.Column(db.DateTime(20), nullable=False)
+    cliente = db.Column(db.String(84), nullable=False)
+    motor = db.Column(db.String(84), nullable=False)
+    usuario = db.Column(db.String(84), nullable=False)
+    #data = db.Column(db.String(84), nullable=False)
+    #status = db.Column(db.DateTime(20), nullable=False)
     usuarios_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
     clientes_id = db.Column(db.Integer, db.ForeignKey('clientes.id'))
     motores_id = db.Column(db.Integer, db.ForeignKey('motores.id'))

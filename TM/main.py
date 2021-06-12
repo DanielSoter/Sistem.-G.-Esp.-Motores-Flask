@@ -1,5 +1,4 @@
 from app import create_app
-from flask_admin import Admin
 
 app = create_app()
 
