@@ -1,0 +1,22 @@
+{% extends  'noauth.html' %}
+{% block content %}
+  <div class="container vh-100">
+    <div class="row vh-100 align-items-center">
+      <div class="col-6">
+        <img src="/static/img/img-01.png" alt="IMG">
+      </div>
+      <div class="col-6">
+        {% from 'form.html' import render_form %}
+        {% include 'components/notification.html' %}
+        <h2>Entre com sua conta</h2>
+        {{render_form(form) }}
+      </div>
+    </div>
+  </div>
+
+
+  {% endblock %}
+
+
+
+
