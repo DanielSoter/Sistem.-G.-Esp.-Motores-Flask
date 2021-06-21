@@ -1,0 +1,29 @@
+{% extends  'bases/base.html' %}
+
+{% from 'bases/form.html' import render_form %}
+
+{% block content %}
+<div class="container vh-100">
+
+  <div class="row justify-content-center">
+      <img class="m-auto" src="/static/img/img-01.png" style="max-width: 100px" alt="IMG">
+  </div>
+      <hr></hr>
+  <div class="row">
+    <div class="col">
+      <h5>[icone] Texto 1</h5>
+      <p>Breve descrição focando em pontos que serão desenvolvidos</p>
+      <br>
+      <h5>[icone] Texto 2</h5>
+      <p>Breve descrição focando em pontos que serão desenvolvidos</p>
+      <br>
+      <h5>[icone] Texto 3</h5>
+      <p>Breve descrição focando em pontos que serão desenvolvidos</p>
+      <br>
+    </div>
+    <div class="col">
+      {% include 'components/notification.html' %}
+      {{ render_form(form) }}
+    </div>
+  </div>
+{% endblock %}

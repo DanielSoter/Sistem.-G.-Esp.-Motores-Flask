@@ -19,11 +19,11 @@
       <div class="row">
         <div class="col-6" style="padding-bottom: 20px;">
           <a
-          href="{{ url_for('usuarios.regitro_tecnico') }}"
+          href="{{ url_for('clientes.cadastrar_cliente') }}"
           class="btn btn-success" 
           >
           <i class="fa fa-plus" aria-hidden="true"></i>
-          Cadastrar novo técnico
+          Cadastrar novo cliente
           </a>
         </div>
       </div>  
@@ -32,40 +32,43 @@
             <tr>
               <th>Id</th>
               <th>Nome</th>
-              <th>Email</th>
-              <th>Cargo</th>
+              <th>E-mail</th>
+              <th>Cpf</th>
+              <th>Endereço</th>
+              <th>Telefone</th>
               <th>Ações</th>
             </tr>
           </thead>
           <tbody id="myTable">
-            {% for usuario in usuarios %}
-            {% if usuario.cargo == "Técnico Eletricista" %}
+            {% for cliente in clientes %}
             <tr>
               <td>
-                {{ usuario.id }}
+                {{ cliente.id }}
               </td>
               <td>
-                {{ usuario.nome }}
+                {{ cliente.nome }}
               </td>
               <td>
-                {{ usuario.email }}
+                {{ cliente.email }}
               </td>
               <td>
-                {{ usuario.cargo }}
+                {{ cliente.cpf }}
               </td>
               <td>
-                <a class="btn btn-warning btn-sm" href="{{ url_for('usuarios.editar', id=usuario.id) }}">
+                {{ cliente.endereco }}
+              </td>
+              <td>
+                {{ cliente.telefone }}
+              </td>
+              <td>
+                <a class="btn btn-warning btn-sm" href="{{ url_for('clientes.editar', id=cliente.id) }}">
                   <i class="fa fa-edit" aria-hidden="true"></i>
                 </a>
-                <a class="btn btn-secondary btn-sm" href="{{ url_for('usuarios.redefinir_senha', id=usuario.id) }}">
-                  <i class="fa fa-key" aria-hidden="true"></i>
-                </a>
-                <a class="btn btn-danger btn-sm" href="{{ url_for('usuarios.deletar_tecnico', id=usuario.id) }}">
+                <a class="btn btn-danger btn-sm" href="{{ url_for('clientes.deletar', id=cliente.id) }}">
                   <i class="fa fa-trash" aria-hidden="true"></i>
                 </a>
               </td>
             </tr>
-            {% endif %}
             {% endfor %} 
           </tbody>
         </table>

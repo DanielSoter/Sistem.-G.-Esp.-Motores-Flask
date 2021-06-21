@@ -1,8 +1,8 @@
-from app.autenticacao import autenticacao as autenticacao_blueprint
-from app.usuarios import usuarios as usuarios_blueprint
-from app.motores import motores as motores_blueprint
-from app.clientes import clientes as clientes_blueprint
-from app.atividades import atividades as atividades_blueprint
+from app.view_autenticacao import autenticacao as autenticacao_blueprint
+from app.view_usuarios import usuarios as usuarios_blueprint
+from app.view_motores import motores as motores_blueprint
+from app.view_clientes import clientes as clientes_blueprint
+from app.view_atividades import atividades as atividades_blueprint
 
 
 def init_app(app):

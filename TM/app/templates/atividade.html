@@ -19,11 +19,11 @@
       <div class="row">
         <div class="col-6" style="padding-bottom: 20px;">
           <a
-          href="{{ url_for('usuarios.regitro_tecnico') }}"
+          href="{{ url_for('atividades.cadastrar_atividade') }}"
           class="btn btn-success" 
           >
           <i class="fa fa-plus" aria-hidden="true"></i>
-          Cadastrar novo técnico
+          Cadastrar nova atividade
           </a>
         </div>
       </div>  
@@ -31,41 +31,52 @@
           <thead>
             <tr>
               <th>Id</th>
-              <th>Nome</th>
-              <th>Email</th>
-              <th>Cargo</th>
+              <th>Ordem de serviço</th>
+              <th>Cliente</th>
+              <th>Motor</th>
+              <th>Técnico</th>
+              <th>Status</th>
+              <th>Data de inicio</th>
+              <th>Data de término</th>
               <th>Ações</th>
             </tr>
           </thead>
           <tbody id="myTable">
-            {% for usuario in usuarios %}
-            {% if usuario.cargo == "Técnico Eletricista" %}
+            {% for atividade in atividades %}
             <tr>
               <td>
-                {{ usuario.id }}
+                {{ atividade.id }}
               </td>
               <td>
-                {{ usuario.nome }}
+                {{ atividade.ordem_servico }}
               </td>
               <td>
-                {{ usuario.email }}
+                {{ atividade.cliente }}
               </td>
               <td>
-                {{ usuario.cargo }}
+                {{ atividade.motor }}
               </td>
               <td>
-                <a class="btn btn-warning btn-sm" href="{{ url_for('usuarios.editar', id=usuario.id) }}">
+                {{ atividade.usuario }}
+              </td>
+              <td>
+                {{ atividade.status }}
+              </td>
+              <td>
+                {{ atividade.data_inicio.strftime('%d/%m/%Y') }}
+              </td>
+              <td>
+                {{ atividade.data_fim.strftime('%d/%m/%Y') }}
+              </td>
+              <td>
+                <a class="btn btn-warning btn-sm" href="{{ url_for('atividades.editar', id=atividade.id) }}">
                   <i class="fa fa-edit" aria-hidden="true"></i>
                 </a>
-                <a class="btn btn-secondary btn-sm" href="{{ url_for('usuarios.redefinir_senha', id=usuario.id) }}">
-                  <i class="fa fa-key" aria-hidden="true"></i>
-                </a>
-                <a class="btn btn-danger btn-sm" href="{{ url_for('usuarios.deletar_tecnico', id=usuario.id) }}">
+                <a class="btn btn-danger btn-sm" href="{{ url_for('atividades.deletar', id=atividade.id) }}">
                   <i class="fa fa-trash" aria-hidden="true"></i>
                 </a>
               </td>
             </tr>
-            {% endif %}
             {% endfor %} 
           </tbody>
         </table>

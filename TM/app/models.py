@@ -1,5 +1,7 @@
+import re
 from app import db, login_manager
 from flask_login import UserMixin
+from sqlalchemy.dialects.sqlite import DATE
 
 @login_manager.user_loader
 def current_user(user_id):
@@ -13,8 +15,7 @@ class Usuario(db.Model, UserMixin):
     nome = db.Column(db.String(84), nullable=False)
     email = db.Column(db.String(84), nullable=False, unique=True, index=True)
     senha = db.Column(db.String(255), nullable=False)
-    cargo = db.Column(db.String(84), nullable=False)
-    atividade = db.relationship('Atividade', backref='usuarios', uselist=True)   
+    cargo = db.Column(db.String(84), nullable=False)  
 
     def __str__(self):
         return self.nome
@@ -23,13 +24,11 @@ class Usuario(db.Model, UserMixin):
 class Clientes(db.Model, UserMixin):
     __tablename__ = "clientes"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    nome = db.Column(db.String(84), nullable=False)
-    email = db.Column(db.String(84), nullable=False, unique=True, index=True)
-    cpf = db.Column(db.String(11), nullable=True, unique=True)
-    endereco = db.Column(db.String(84), nullable=False)
-    telefone = db.Column(db.String(16), nullable=False)
-    motor = db.relationship('Motores', backref='clientes', uselist=True)
-    atividade = db.relationship('Atividade', backref='clientes', uselist=True) 
+    nome = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), nullable=False, unique=True, index=True)
+    cpf = db.Column(db.String(100), nullable=True, unique=True)
+    endereco = db.Column(db.String(100), nullable=False)
+    telefone = db.Column(db.String(100), nullable=False)
 
     def __str__(self):
         return self.nome
@@ -38,7 +37,6 @@ class Clientes(db.Model, UserMixin):
 class Motores(db.Model, UserMixin):
     __tablename__ = "motores"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    clientes_id = db.Column(db.Integer, db.ForeignKey('clientes.id'))
     equipamento = db.Column(db.String(84), nullable=False, index = True)
     cliente = db.Column(db.String(84), nullable=False)
     marca = db.Column(db.String(84), nullable=False)
@@ -47,7 +45,6 @@ class Motores(db.Model, UserMixin):
     cv = db.Column(db.String(10), nullable=False)
     rpm = db.Column(db.String(15), nullable=False)
     corrente = db.Column(db.String(15), nullable=False)
-    atividade = db.relationship('Atividade', backref='motores', uselist=True)
 
     def __str__(self):
         return self.equipamento
@@ -61,11 +58,10 @@ class Atividade(db.Model, UserMixin):
     cliente = db.Column(db.String(84), nullable=False)
     motor = db.Column(db.String(84), nullable=False)
     usuario = db.Column(db.String(84), nullable=False)
-    #data = db.Column(db.String(84), nullable=False)
-    #status = db.Column(db.DateTime(20), nullable=False)
-    usuarios_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
-    clientes_id = db.Column(db.Integer, db.ForeignKey('clientes.id'))
-    motores_id = db.Column(db.Integer, db.ForeignKey('motores.id'))
+    data_inicio = db.Column(db.Date(), nullable=False)
+    status = db.Column(db.String(84), nullable=False)
+    data_fim = db.Column(db.Date(), nullable=False)
+    conclusao = db.Column(db.String(200), nullable=False)
 
     def __str__(self):
         return self.ordem_servico
@@ -78,3 +74,4 @@ class Atividade(db.Model, UserMixin):
 
 #Tabelas: atividades, usuários, clientes e motores
 #Uma atividade(pai) possui apenas um motor(filho), um usuário(filho) e um cliente(filho).
+

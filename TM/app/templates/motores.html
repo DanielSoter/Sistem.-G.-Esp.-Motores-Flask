@@ -19,11 +19,11 @@
       <div class="row">
         <div class="col-6" style="padding-bottom: 20px;">
           <a
-          href="{{ url_for('usuarios.regitro_tecnico') }}"
+          href="{{ url_for('motores.cadastrar_motor') }}"
           class="btn btn-success" 
           >
           <i class="fa fa-plus" aria-hidden="true"></i>
-          Cadastrar novo técnico
+          Cadastrar novo motor
           </a>
         </div>
       </div>  
@@ -31,41 +31,56 @@
           <thead>
             <tr>
               <th>Id</th>
-              <th>Nome</th>
-              <th>Email</th>
-              <th>Cargo</th>
+              <th>Equipamento</th>
+              <th>Cliente</th>
+              <th>Marca</th>
+              <th>Modelo</th>
+              <th>Ip</th>
+              <th>Cv</th>
+              <th>Rpm</th>
+              <th>Corrente</th>
               <th>Ações</th>
             </tr>
           </thead>
           <tbody id="myTable">
-            {% for usuario in usuarios %}
-            {% if usuario.cargo == "Técnico Eletricista" %}
+            {% for motor in motores %}
             <tr>
               <td>
-                {{ usuario.id }}
+                {{ motor.id }}
               </td>
               <td>
-                {{ usuario.nome }}
+                {{ motor.equipamento }}
               </td>
               <td>
-                {{ usuario.email }}
+                {{ motor.cliente }}
               </td>
               <td>
-                {{ usuario.cargo }}
+                {{ motor.marca }}
               </td>
               <td>
-                <a class="btn btn-warning btn-sm" href="{{ url_for('usuarios.editar', id=usuario.id) }}">
+                {{ motor.modelo }}
+              </td>
+              <td>
+                {{ motor.ip }}
+              </td>
+              <td>
+                {{ motor.cv }}
+              </td>
+              <td>
+                {{ motor.rpm }}
+              </td>
+              <td>
+                {{ motor.corrente }}
+              </td>
+              <td>
+                <a class="btn btn-warning btn-sm" href="{{ url_for('motores.editar', id=motor.id) }}">
                   <i class="fa fa-edit" aria-hidden="true"></i>
                 </a>
-                <a class="btn btn-secondary btn-sm" href="{{ url_for('usuarios.redefinir_senha', id=usuario.id) }}">
-                  <i class="fa fa-key" aria-hidden="true"></i>
-                </a>
-                <a class="btn btn-danger btn-sm" href="{{ url_for('usuarios.deletar_tecnico', id=usuario.id) }}">
+                <a class="btn btn-danger btn-sm" href="{{ url_for('motores.deletar', id=motor.id) }}">
                   <i class="fa fa-trash" aria-hidden="true"></i>
                 </a>
               </td>
             </tr>
-            {% endif %}
             {% endfor %} 
           </tbody>
         </table>

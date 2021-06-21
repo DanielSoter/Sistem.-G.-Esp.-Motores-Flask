@@ -1,8 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms.fields import (BooleanField, PasswordField, SelectField,
-                            StringField, SubmitField)
-from wtforms.fields.html5 import EmailField
-from wtforms.validators import DataRequired, Email, Length
+                            StringField, SubmitField, TextAreaField)
+from wtforms.fields.html5 import EmailField, DateField
+from wtforms.validators import DataRequired, Email, Length, EqualTo
 
 from app.models import Atividade, Clientes, Motores, Usuario
 
@@ -36,6 +36,30 @@ class RegistroUsuarioForm(FlaskForm):
     submit = SubmitField("Cadastrar")
 
 
+class EdicaoUsuarioForm(FlaskForm):
+    nome = StringField("Nome Completo", validators=[
+        DataRequired("o campo é obrigatório")
+    ])
+    cargo = StringField("Cargo", validators=[
+        DataRequired("o campo é obrigatório")
+    ])
+    email = EmailField("Email", validators=[
+        Email()
+    ])
+    submit = SubmitField("Salvar")
+
+
+class RedefUsuarioForm(FlaskForm):
+    senha = PasswordField("Senha", validators=[
+        Length(6, 12, "O campo deve conter entre 6 á 12 caracters."),
+        EqualTo('cofirmacao_senha', message='Senhas não correspondem')
+    ])
+    cofirmacao_senha = PasswordField("Senha", validators=[
+        Length(6, 12, "O campo deve conter entre 6 á 12 caracters.")
+    ])
+    submit = SubmitField("Redefinir")
+
+
 class RegistroClienteForm(FlaskForm):
     nome = StringField("Nome Completo", validators=[
         DataRequired("o campo é obrigatório")
@@ -55,12 +79,64 @@ class RegistroClienteForm(FlaskForm):
     submit = SubmitField("Cadastrar")
 
 
+class EditarClienteForm(FlaskForm):
+    nome = StringField("Nome Completo", validators=[
+        DataRequired("o campo é obrigatório")
+    ])
+    email = EmailField("Email", validators=[
+        Email()
+    ])
+    cpf = StringField("CPF", validators=[
+        DataRequired("o campo é obrigatório")
+    ])
+    endereco = StringField("Endereço", validators=[
+        DataRequired("o campo é obrigatório")
+    ])
+    telefone = StringField("Telefone", validators=[
+        DataRequired("o campo é obrigatório")
+    ])
+    submit = SubmitField("Salvar")
+
+
 class RegistroMotorForm(FlaskForm):
 
     equipamento = StringField("Equipamento", validators=[
         DataRequired("o campo é obrigatório")
     ])
-    cliente = SelectField("Cliente", coerce=int)
+    cliente = SelectField("Cliente")
+    marca = StringField("Marca", validators=[
+        DataRequired("o campo é obrigatório")
+    ])
+    modelo = StringField("Modelo", validators=[
+        DataRequired("o campo é obrigatório")
+    ])
+    ip = StringField("IP", validators=[
+        DataRequired("o campo é obrigatório")
+    ])
+    cv = StringField("CV", validators=[
+        DataRequired("o campo é obrigatório")
+    ])
+    rpm = StringField("RPM", validators=[
+        DataRequired("o campo é obrigatório")
+    ])
+    corrente = StringField("Corrente", validators=[
+        DataRequired("o campo é obrigatório")
+    ])
+    submit = SubmitField("Cadastrar")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.cliente.choices = [ 
+            (clientes.nome, clientes.nome) for clientes in Clientes.query.all()
+        ]
+
+
+class EditarMotorForm(FlaskForm):
+
+    equipamento = StringField("Equipamento", validators=[
+        DataRequired("o campo é obrigatório")
+    ])
+    cliente = SelectField("Cliente")
     marca = StringField("Marca", validators=[
         DataRequired("o campo é obrigatório")
     ])
@@ -84,7 +160,7 @@ class RegistroMotorForm(FlaskForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.cliente.choices = [ 
-            (clientes.id, clientes.name) for clientes in Clientes.query.all()
+            (clientes.nome, clientes.nome) for clientes in Clientes.query.all()
         ]
 
 
@@ -93,31 +169,50 @@ class RegistroAtividadeForm(FlaskForm):
     ordem_servico = StringField("OS", validators=[
         DataRequired("o campo é obrigatório")
     ])
-    cliente = SelectField("Cliente", coerce=int)
-    usuario = SelectField("Técnico", coerce=int)
-    motor = SelectField("Motor", coerce=int)
-    #data = DateTimeField("Inicio", format='%d-%m-%Y %H:%M:%S')
-    #status = SelectField("status", coerce=int)
+    cliente = SelectField("Cliente")
+    usuario = SelectField("Técnico")
+    motor = SelectField("Motor")
+    data_inicio = DateField("Data inicio", format="%Y-%m-%d")
+    status = SelectField("status", choices = [('Aguardando'),('Em Andamento'), ('Concluído'), ('Pausado'), ('Cancelado')])
+    data_fim = DateField("Data inicio", format="%Y-%m-%d")
+    conclusao = TextAreaField("Relatório")
+    submit = SubmitField("Cadastrar")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.cliente.choices = [
+            (clientes.nome, clientes.nome) for clientes in Clientes.query.all()
+        ]
+        self.usuario.choices = [
+            (usuarios.nome, usuarios.nome) for usuarios in Usuario.query.all()
+        ]
+        self.motor.choices = [
+            (motores.equipamento, motores.equipamento) for motores in Motores.query.all()
+        ]
+
+
+class EditarAtividadeForm(FlaskForm):
+
+    ordem_servico = StringField("OS", validators=[
+        DataRequired("o campo é obrigatório")
+    ])
+    cliente = SelectField("Cliente")
+    usuario = SelectField("Técnico")
+    motor = SelectField("Motor")
+    data_inicio = DateField("Data inicio", format="%Y-%m-%d")
+    status = SelectField("status", choices = [('Aguardando'),('Em Andamento'), ('Concluído'), ('Pausado'), ('Cancelado')])
+    data_fim = DateField("Data término", format="%Y-%m-%d")
+    conclusao = TextAreaField("Relatório")
     submit = SubmitField("Salvar")
 
     def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
-            self.usuarios.choices = [ 
-                (usuarios.id, usuarios.name) for usuarios in Usuario.query.all()
-            ]
-
-    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.clientes.choices = [ 
-            (clientes.id, clientes.name) for clientes in Clientes.query.all()
+        self.cliente.choices = [
+            (clientes.nome, clientes.nome) for clientes in Clientes.query.all()
         ]
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.motores.choices = [ 
-            (motores.id, motores.name) for motores in Motores.query.all()
+        self.usuario.choices = [
+            (usuarios.nome, usuarios.nome) for usuarios in Usuario.query.all()
         ]
-    
-    #def __init__(self, *args, **kwargs):
-     #   super().__init__(*args, **kwargs)
-      #  self.status.choices = [('Concluído'), ('Em Andamento'), ('Pausado'), ('Cancelado')]
+        self.motor.choices = [
+            (motores.equipamento, motores.equipamento) for motores in Motores.query.all()
+        ]
