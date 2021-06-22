@@ -1,4 +1,5 @@
 {% extends 'bases/base_geral.html' %} {% block content %} 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +12,7 @@
 <body>
   <div class="container">
     <div class="col">
+      {% include 'components/notification.html' %}
       <div class="row">
         <div class="form-group col-6">
           <input class="form-control" id="myInput" type="text" placeholder="Busca com palavra-chave">
@@ -60,7 +62,17 @@
                 {{ atividade.usuario }}
               </td>
               <td>
-                {{ atividade.status }}
+                {% if atividade.status == "Em Andamento" %}
+                <span class="badge bg-warning text-dark">{{ atividade.status }}</span>
+                {% elif atividade.status == "Aguardando" %}
+                <span class="badge bg-primary">{{ atividade.status }}</span>
+                {% elif atividade.status == "Pausado" %}
+                <span class="badge bg-secudary">{{ atividade.status }}</span>
+                {% elif atividade.status == "Concluído" %}
+                <span class="badge bg-success">{{ atividade.status }}</span>
+                {% elif atividade.status == "Cancelado" %}
+                <span class="badge bg-danger">{{ atividade.status }}</span>
+                {% endif %}
               </td>
               <td>
                 {{ atividade.data_inicio.strftime('%d/%m/%Y') }}
@@ -69,11 +81,14 @@
                 {{ atividade.data_fim.strftime('%d/%m/%Y') }}
               </td>
               <td>
-                <a class="btn btn-warning btn-sm" href="{{ url_for('atividades.editar', id=atividade.id) }}">
+                <a class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Editar" href="{{ url_for('atividades.editar', id=atividade.id) }}">
                   <i class="fa fa-edit" aria-hidden="true"></i>
                 </a>
-                <a class="btn btn-danger btn-sm" href="{{ url_for('atividades.deletar', id=atividade.id) }}">
+                <a class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Remover" href="{{ url_for('atividades.deletar', id=atividade.id) }}">
                   <i class="fa fa-trash" aria-hidden="true"></i>
+                </a>
+                <a class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Exibir relatório da atividade" href="{{ url_for('atividades.relatorio', id=atividade.id) }}">
+                  <i class="fa fa-eye" aria-hidden="true"></i>
                 </a>
               </td>
             </tr>

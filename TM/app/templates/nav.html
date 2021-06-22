@@ -1,19 +1,8 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light">
   
   <a class="navbar-brand" href="{{ url_for('atividades.home') }}">
     <img class="m-auto" src="/static/img/img-01.png" style="max-width:80px" alt="IMG">
   </a>
-  <button
-    class="navbar-toggler"
-    type="button"
-    data-toggle="collapse"
-    data-target="#navbarNav"
-    aria-controls="navbarNav"
-    aria-expanded="false"
-    aria-label="Toggle navigation"
-  >
-    <span class="navbar-toggler-icon"></span>
-  </button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="nav nav-tabs">
       {% if not current_user.is_authenticated %}
@@ -25,25 +14,32 @@
       </li>
       {% else %}
       <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('usuarios.tela_usuarios') }}">Técnicos</a>
+        <a class="nav-link font-weight-bold" href="{{ url_for('usuarios.tela_usuarios') }}">Técnicos</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('clientes.tela_cliente') }}">Clientes</a>
+        <a class="nav-link font-weight-bold" href="{{ url_for('clientes.tela_cliente') }}">Clientes</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('motores.tela_motor') }}">Motores</a>
+        <a class="nav-link font-weight-bold" href="{{ url_for('motores.tela_motor') }}">Motores</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('autenticacao.logout') }}">Sair</a>
+      <li class="nav-item ml-auto">
+        <a class="nav-link" data-toggle="tooltip" data-placement="left" title="Sair" href="{{ url_for('autenticacao.logout') }}"><i class="fa fa-2x fa-sign-out" aria-hidden="true"></i></a>
       </li>
       {% endif %}
     </ul>
   </div>
 </nav>
 <script>
-  $(".nav .nav-link").on("click", function(){
-    $(".nav").find(".active").removeClass("active");
-    $(this).addClass("active");
-});
+  $( document ).ready(function() {
+    console.log( "ready!" );
+    var navlinks = $(".nav-link")
+    navlinks.map(function(item){
+      var href = $(this).attr("href")
+      if(href == window.location.pathname){
+        $(this).parent().addClass("active font-italic")
+      }
+      console.log(href)
+    })
+  });
 </script>
 <br><br>

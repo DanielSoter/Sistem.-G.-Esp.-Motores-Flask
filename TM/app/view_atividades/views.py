@@ -2,7 +2,7 @@ from flask import flash, redirect, render_template, url_for
 from flask_login import current_user
 from datetime import datetime
 from app import db
-from app.forms import RegistroAtividadeForm, EditarAtividadeForm
+from app.forms import RegistroAtividadeForm, EditarAtividadeForm, RelatorioAtividadeForm
 from app.models import Atividade
 
 from . import atividades
@@ -60,6 +60,21 @@ def editar(id):
     form.data_fim.data = atividade.data_fim
     form.conclusao.data = atividade.conclusao
     return render_template("editar/editar_atividade.html", form=form)
+
+
+@atividades.route("/atividade/ralatorio/<int:id>", methods=["GET", "POST"])
+def relatorio(id):
+    atividade = Atividade.query.get(id)
+    form = RelatorioAtividadeForm()
+    form.ordem_servico.data = atividade.ordem_servico
+    form.cliente.data = atividade.cliente
+    form.motor.data = atividade.motor
+    form.usuario.data = atividade.usuario
+    form.data_inicio.data = atividade.data_inicio.strftime('%d/%m/%Y')
+    form.status.data = atividade.status
+    form.data_fim.data = atividade.data_fim.strftime('%d/%m/%Y')
+    form.conclusao.data = atividade.conclusao
+    return render_template("relatorio.html", form=form)
 
 
 @atividades.route("/atividade/delete/<int:id>")

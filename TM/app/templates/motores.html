@@ -11,6 +11,7 @@
 <body>
   <div class="container">
     <div class="col">
+      {% include 'components/notification.html' %}
       <div class="row">
         <div class="form-group col-6">
           <input class="form-control" id="myInput" type="text" placeholder="Busca com palavra-chave">
@@ -73,10 +74,10 @@
                 {{ motor.corrente }}
               </td>
               <td>
-                <a class="btn btn-warning btn-sm" href="{{ url_for('motores.editar', id=motor.id) }}">
+                <a class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Editar" href="{{ url_for('motores.editar', id=motor.id) }}">
                   <i class="fa fa-edit" aria-hidden="true"></i>
                 </a>
-                <a class="btn btn-danger btn-sm" href="{{ url_for('motores.deletar', id=motor.id) }}">
+                <a class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Remover" href="{{ url_for('motores.deletar', id=motor.id) }}">
                   <i class="fa fa-trash" aria-hidden="true"></i>
                 </a>
               </td>

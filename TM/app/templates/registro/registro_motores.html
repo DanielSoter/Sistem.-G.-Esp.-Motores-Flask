@@ -12,14 +12,12 @@
   <div class="row justify-content-center align-items-cent">
     <div class="col-8">
       <br>
-      <div class="p-3 mb-2 bg-primary text-white font-weight-bold text-center">CADASTRAR NOVO MOTOR</div>
-      <br><br>
       <a href="{{ url_for('motores.tela_motor') }}" class="btn btn-primary">
         <i class="fa fa-arrow-left" aria-hidden="true"></i>
         Voltar
       </a>
-      <br><br><br>
-      {% include 'components/notification.html' %}
+      <br><br>
+      <div class="p-3 mb-2 bg-primary text-white font-weight-bold text-center">CADASTRAR NOVO MOTOR</div>
       {{ render_form(form) }}
       <br><br><br><br>
     </div>

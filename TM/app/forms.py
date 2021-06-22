@@ -216,3 +216,15 @@ class EditarAtividadeForm(FlaskForm):
         self.motor.choices = [
             (motores.equipamento, motores.equipamento) for motores in Motores.query.all()
         ]
+
+
+class RelatorioAtividadeForm(FlaskForm):
+
+    ordem_servico = StringField("OS", render_kw={'readonly': True})
+    cliente = StringField("Cliente", render_kw={'readonly': True})
+    usuario = StringField("Técnico", render_kw={'readonly': True})
+    motor = StringField("Motor", render_kw={'readonly': True})
+    data_inicio = StringField("Data inicio", render_kw={'readonly': True})
+    status = StringField("status", render_kw={'readonly': True})
+    data_fim = StringField("Data inicio", render_kw={'readonly': True})
+    conclusao = TextAreaField("Relatório", render_kw={'readonly': True})
